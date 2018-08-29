@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{%block body%}
+
+<div class="container">
+    <div class="card card-container"  id="register">
+      <h2 style="size:30px"> Register</h2>
+      <form name="myform" class="form-signin" action="#" method="post" onsubmit="return validateForm()">
+        <span id="reauth-email" class="reauth-email"></span>
+
+        <input type="text" class="form-control" name="first_name" id="firstname" placeholder="First Name" required autofocus>
+        <input type="text" class="form-control" name="last_name" id="lastname" placeholder="Last Name"  autofocus>
+        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
+        <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Mobile No" required  >
+        
+        <h6 style="padding: 10px"><b> Upload Profile Photo</b></h6>
+        <input type="file" class="form-control" name="image" id="upload" placeholder="Upload Photo"   />
+        <br>
+        
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+        <input type="password" id="confirmPassword" name="password2" class="form-control" placeholder="confirmPassword" required>
+        <div id="remember" class="checkbox">
+
+        </div>
+        <button class="btn btn-lg btn-primary btn-block btn-signin"  type="submit" value="Submit">Register</button>
+      </form><!-- /form -->
+
+    </div><!-- /card-container -->
+  </div>
+
+  <br>
+  <br>
+  <script type="text/javascript">
+  function validateForm() {
+    var x = document.forms["myform"]["mobile"].value;
+    if(x.length!=10)
+    {
+      swal("Enter a valid Mobile No.");
+      return false;
+    }
+    var y=document.forms["myform"]["password"].value;
+    var z=document.forms["myform"]["password2"].value;
+    if(y!=z){
+      swal("Password Doesn't Match");
+      return false;
+
+    }
+
+  }
+</script>
+  {% endblock %}

@@ -1,0 +1,422 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Page</title>
+	
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'posts.css' %}">
+
+</head>
+<body>
+	
+		<nav style="background-color:black;">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Martian</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="#">Home</a></li>
+        <li><a href="#" id="name_required">{{customer.first_name}}</a></li>
+        <li><a href="/logout/" id="logout">Logout</a></li>
+      </ul>
+
+    </div>
+  </nav>
+  <div class="container" >
+    <div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<div class="profile-userpic">
+					<img id="image-id" src="{{customer.image.url}}" class="img-responsive" alt="">
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						{{customer.first_name}}&nbsp;{{customer.last_name}}
+					</div>
+					<div class="profile-usertitle-job school_class" id="position">
+						<a href="#">{{customer.position}}</a>
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class="profile-usermenu">
+					<ul class="nav">
+						<li class="active">
+							<a href="#" >
+							<i class="glyphicon glyphicon-envelope" ></i>
+							{{customer.email}} </a>
+						</li>
+						<li>
+							<a href="#" class="school_class" id="job">
+							<i class="glyphicon glyphicon-briefcase"></i>
+							{{customer.job}} </a>
+						</li>
+						<li>
+							<a href="#" target="_blank" class="school_class" id="college">
+							<i class="glyphicon glyphicon-education"></i>
+							{{customer.college}} </a>
+						</li>
+						<li>
+							<a href="#" class="school_class" id="school">
+							<i class="glyphicon glyphicon-book"></i>
+							{{customer.school}} </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>
+		<div class="col-md-9" style="overflow-x: hidden;">
+            <div class="profile-content">
+			   <div class="container">
+	<div class="col-md-5">
+        <form action="/status" method="post" name="Input" enctype='multipart/form-data'>
+          <textarea style="resize: none;" type="text" rows= '5'id="post" class="form-control input-lg chat-input" name='status-text' placeholder="What's on your mind?..." ></textarea>
+        <div><br>
+  <label for="files" class="btn btn-primary">Upload Photo</label>
+  <input id="files" style="visibility:hidden;" type="file" name='file'>
+</div>
+        <button class="btn btn-submit right" type="submit" style="margin-top: -45px;">POST</button>
+        </form>
+        <br>
+        <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+ -->
+<!-- Modal -->
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <input id = "school_name" placeholder="Enter Here"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+       
+
+
+
+
+
+ {%for post in posts%}
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+               <section class="post-heading">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="media">
+                              <div class="media-left">
+                                <a href="#">
+                                  <img class="media-object photo-profile" src="{{post.user.image.url}}" width="40" height="40" alt="...">
+                                </a>
+                              </div>
+                              <div class="media-body">
+                                <a  class="anchor-username"><h4 class="media-heading">{{post.user.first_name}}</h4></a> 
+                                <a  class="anchor-time">{{post.date}}</a>
+                              </div>
+                            </div>
+                        </div>
+                         
+                    </div>             
+               </section>
+               <section class="post-body">
+                   <p>{{post.text}}</p>
+                   <br>
+                   {%if post.image%}
+                   <img src="{{post.image.url}}" style="width: 100%;height: 300px;">
+                   {%endif%}
+               </section>
+               <section class="post-footer">
+                   <hr>
+                   <div class="post-footer-option container">
+                        <ul class="list-unstyled">
+                            <li id="liked" onclick="myFunction({{post.id}})"><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i><span id="{{post.id}}L">{{post.likes}}</span>&nbsp; Like</a></li>
+                            <li id="liked" onclick="myDislike({{post.id}})"><a href="#"><i class="glyphicon glyphicon-thumbs-down"></i><span id="{{post.id}}D">{{post.dislikes}}</span>&nbsp; Dislike</a></li>
+                            <li id="click-comment" onclick="myComments({{post.id}})"><a href="#"><i class="glyphicon glyphicon-comment"></i>Comment</a></li>
+                        </ul>
+                   </div>
+                   <div class="post-footer-comment-wrapper" style="display: none;" id="{{post.id}}T">
+                       <div class="comment-form">
+                           <div class="input-group">
+        <textarea style="resize: none;"type="text" rows= '2'id="userComment{{post.id}}" class="form-control input-lg chat-input" placeholder="Write your message here..." ></textarea>
+      <span class="input-group-btn" onclick="addComment({{post.id}})">     
+            <a id ="clicked{{post.id}}" href="#" class="btn btn-primary btn-xs" style="padding: 8px;"><span class="glyphicon glyphicon-comment"></span>Comment</a>
+        </span>
+    </div>
+    <br>
+                       </div>
+                       <div id = "{{post.id}}C">
+                          
+                       </div>
+
+                   </div>
+               </section>
+            </div>
+
+        </div>   
+        {%endfor%}
+  </div>
+        
+</div>
+            </div>
+		</div>
+	</div>
+</div>
+
+<br>
+<br>
+  	
+        
+	
+</body>
+
+
+<script type="text/javascript">
+
+$("#logout").on('click',function(e)
+{
+window.location = '/logout';
+});
+
+  $('.school_class').on('click',function(e){
+    e.preventDefault();console.log("dfd");
+    $("#myModal").modal('show');
+   // console.log();
+   var st = $(this);
+    $(".modal-title").text($(this).text());
+    $(".modal-footer").on('click',function(e){
+      e.preventDefault();
+      var value = $("#school_name").val();
+      data = {'change':value,'text':st[0]['id']}
+      st.text(value);
+      $.ajax({
+
+      type: "POST",
+      url: "/values",
+      data:data,
+      success: function(data){
+        console.log(data);}
+      });
+
+
+
+    });
+    
+    
+  });
+function addComment(id)
+{
+
+  var name = $("#name_required").text();
+  var url = $("#image-id").attr('src');
+  console.log(name);
+  var text = $("#userComment"+id).val();
+  if(text == "")
+    return false;
+  var time = new Date();
+  time = ""+ time;
+  time = time.substr(0,21);
+  console.log(text);
+  
+  var comment = ' <div class="comment">' + 
+                            '<div class="media">' + 
+                              '<div class="media-left">'+
+                                '<a href="#">'+
+                                  '<img class="media-object photo-profile" src="'+url+'" width="32" height="32" alt="...">'+' </a>'+'</div>'+
+                              
+                              '<div class="media-body">'+
+                                '<a  class="anchor-username"><h4 class="media-heading">'+name+'</h4></a>' +
+                                '<p>'+text+'</p>'+
+                                '<a  class="anchor-time">'+time+'</a>'+
+                              '</div>'+
+                            '</div>'+
+                       '</div>';
+                       console.log(comment);
+          $('#'+id+'C').append(comment);
+      data = {'id': id,'user':name,'text':text};
+      $.ajax({
+      type: "POST",
+      url: "/new_comments",
+      data:data,
+      success: function(data){
+        console.log(data);
+      }
+    });
+      $("#userComment"+id).val("");;
+
+
+}
+
+  function myComments(id)
+  {
+    $('#'+id+'C').text("");
+    
+     data = {'id': id};
+      $.ajax({
+      type: "POST",
+      url: "/comments",
+      data:data,
+      success: function(data){
+        console.log(data);
+        for(i in data)
+        {
+          var url = data[i]['link'];
+          var text = data[i]['review'];
+          var user = data[i]['name'];
+          var time = data[i]['time'];
+          time = time.substr(0,19);
+          var time = new Date(time);
+          time = ""+ time;
+          time = time.substr(0,21);
+
+          var comment = ' <div class="comment">' + 
+                            '<div class="media">' + 
+                              '<div class="media-left">'+
+                                '<a href="#">'+
+                                  '<img class="media-object photo-profile" src="'+url+'" width="32" height="32" alt="...">'+' </a>'+'</div>'+
+                              
+                              '<div class="media-body">'+
+                                '<a  class="anchor-username"><h4 class="media-heading">'+user+'</h4></a>' +
+                                '<p>'+text+'</p>'+
+                                '<a  class="anchor-time">'+time+'</a>'+
+                              '</div>'+
+                            '</div>'+
+                       '</div>';
+                       console.log(comment);
+          $('#'+id+'C').append(comment);
+
+
+
+        }
+
+
+      }
+  });
+      $("#"+id+"T"  ).slideToggle(100);
+}
+
+
+$("a").on("click", function(e){
+     e.preventDefault();
+});
+
+  $("li a").on("click", function(e){
+     e.preventDefault();
+});
+ 
+  function myFunction(id) {
+    
+      data = {'id': id,'val':'like'};
+      $.ajax({
+      type: "POST",
+      url: "",
+      data:data,
+      success: function(data){
+        $('#query').text("");
+        console.log(data);  
+        if(data=="successful")
+         {
+           var like = $('#'+id+"L").text();
+           like++;
+           $('#'+id+"L").text(like);
+           
+           
+
+         }
+
+        else
+          alert("you response already recorded");
+      }
+
+  });
+  }
+  function myDislike(id) {
+    
+      data = {'id': id,'val':'dislike'};
+      $.ajax({
+      type: "POST",
+      url: "",
+      data:data,
+      success: function(data){
+        $('#query').text("");
+        console.log(data);  
+        if(data=="successful")
+         {
+           var like = $('#'+id+"D").text();
+           like++;
+           $('#'+id+"D").text(like);
+           
+           
+
+         }
+
+        else
+          alert("you response already recorded");
+      }
+
+  });
+  }
+</script>
+
+<script type="text/javascript">
+  var start = 3
+  $(window).scroll(function() {
+                        if ($(this).scrollTop() + 1 >= $('body').height() - $(window).height()) {
+                                
+                                        data = {'id':start};
+
+                                        $.ajax({
+                                                type: "POST",
+                                                url: "/datafetch",
+                                                
+                                              
+                                                data: data,
+                                                success: function(r) {
+                                                  console.log(r);
+                                                  for(key in r)
+                                                  {
+
+                                                  }
+
+                                                },
+                                                // error: function(r) {
+                                                //         console.log("Something went wrong!");
+                                                // }
+                                        });
+                                
+                        }
+                })
+</script>
+</html>
